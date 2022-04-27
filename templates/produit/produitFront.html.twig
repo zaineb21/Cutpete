@@ -1,0 +1,66 @@
+{% extends 'baseFront.html.twig ' %}
+
+{% block titre %}
+    Mes produits
+{% endblock %}
+
+{% block section%}
+{% endblock %}
+
+{% block corp%}
+    <style>
+        .img{
+            width: 60px;
+            height: 60px;
+            background-size: cover;
+            display: block;
+            border-radius: 100px;
+            -webkit-border-radius: 100px;
+            -moz-border-radius: 100px;
+        }
+    </style>
+    <link rel="stylesheet" href={{ asset ('public/css/style.css') }}>
+    <table class="table">
+        <thead>
+        <tr>
+
+            <th>LibelleProduit</th>
+            <th>Categorie</th>
+            <th>Prix</th>
+            <th>DateExpiration</th>
+            <th>Quantite</th>
+            <th>Description</th>
+            <th>Note</th>
+            <th>Image</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for produit in produits %}
+            <tr>
+
+                <td>{{ produit.libelleProduit }} </td>
+                <td>{{ produit.categorie }}</td>
+                <td>{{ produit.prix }}</td>
+                <td>{{ produit.dateExpiration ? produit.dateExpiration|date('Y-m-d') : '' }}</td>
+                <td>{{ produit.quantite }}</td>
+                <td>{{ produit.description }}</td>
+                <td>{{ produit.note }}</td>
+                <div>
+                    <td> <img  src="{{ asset('img/')}}{{ produit.image }}" alt="" class="img"></td>
+                <td>
+                    <a href="{{ path('app_produit_show', {'idProduit': produit.idProduit}) }}">show</a>
+
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

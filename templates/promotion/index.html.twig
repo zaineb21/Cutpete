@@ -1,0 +1,46 @@
+{% extends 'BaseBack.html.twig' %}
+
+{% block title %}Promotion index{% endblock %}
+
+{% block body %}
+
+    <h1>Promotion index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdPromotion</th>
+                <th>LibellePromotion</th>
+                <th>Pourcentage</th>
+                <th>DateDebutPromotion</th>
+                <th>DateFinPourcentage</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for promotion in promotions %}
+            <tr>
+                <td>{{ promotion.idPromotion }}</td>
+                <td>{{ promotion.libellePromotion }}</td>
+                <td>{{ promotion.pourcentage }}</td>
+                <td>{{ promotion.dateDebutPromotion ? promotion.dateDebutPromotion|date('Y-m-d') : '' }}</td>
+                <td>{{ promotion.dateFinPourcentage ? promotion.dateFinPourcentage|date('Y-m-d') : '' }}</td>
+                <td>{{ promotion.description }}</td>
+                <td>
+                    <a href="{{ path('app_promotion_show', {'idPromotion': promotion.idPromotion}) }}">show</a>
+                    <a href="{{ path('app_promotion_edit', {'idPromotion': promotion.idPromotion}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="navigation">
+        {{ knp_pagination_render(promotions) }}
+    </div>
+    <a href="{{ path('app_promotion_new') }}">Create new</a>
+{% endblock %}

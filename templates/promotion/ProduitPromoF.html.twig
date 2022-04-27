@@ -1,0 +1,68 @@
+{% extends 'baseFront.html.twig ' %}
+
+{% block titre %}
+    Produits en promo
+{% endblock %}
+
+{% block section%}
+{% endblock %}
+{% block corp%}
+    <style>
+        .button {
+            background-color: white;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .button2 {background-color: #008CBA;}
+        .button3 {background-color: #f44336;}
+        .button4 {background-color: #e7e7e7; color: black;}
+        .button5 {background-color: #555555;}
+    </style>
+    <h1>Promotion index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+
+            <th scope="col">LibellePromotion</th>
+            <th scope="col">Pourcentage</th>
+            <th>DateDebutPromotion</th>
+            <th>DateFinPourcentage</th>
+            <th>Description</th>
+
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for promotion in promotions %}
+            <tr>
+
+                <td>{{ promotion.libellePromotion }}</td>
+                <td>{{ promotion.pourcentage }}</td>
+                <td>{{ promotion.dateDebutPromotion ? promotion.dateDebutPromotion|date('Y-m-d') : '' }}</td>
+                <td>{{ promotion.dateFinPourcentage ? promotion.dateFinPourcentage|date('Y-m-d') : '' }}</td>
+                <td>{{ promotion.description }}</td>
+
+                <td>
+                    <a href="{{ path('app_promotion_show', {'idPromotion': promotion.idPromotion}) }}">show</a>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

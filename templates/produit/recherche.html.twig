@@ -1,0 +1,80 @@
+{% extends 'BaseBack.html.twig' %}
+<h1>Recherche produit by categorie</h1>
+{% block title %}Produit index{% endblock %}
+
+{% block body %}
+    <style>
+        .img{
+            width: 60px;
+            height: 60px;
+            background-size: cover;
+            display: block;
+            border-radius: 100px;
+            -webkit-border-radius: 100px;
+            -moz-border-radius: 100px;
+        }
+        th {
+            text-align: inherit;
+            text-align: -webkit-match-parent;
+        }
+        th {
+            border-color: inherit;
+            border-style: solid;
+            border-width: 0;
+        }
+    </style>
+    <table class="table">
+        <form method="post">
+            <input type="text" name="categorie">
+            <input type="submit" name="recherche">
+        </form>
+        <thead>
+        <tr>
+
+            <th >LibelleProduit</th>
+            <th>Categorie</th>
+            <th>Prix</th>
+            <th>DateExpiration</th>
+            <th>Quantite</th>
+            <th >Description</th>
+            <th >Note</th>
+            <th >Image</th>
+            <th >Total</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for produit in produits %}
+            <tr>
+
+                <td>{{ produit.libelleProduit }}</td>
+                <td>{{ produit.categorie }}</td>
+                <td>{{ produit.prix }}</td>
+                <td>{{ produit.dateExpiration ? produit.dateExpiration|date('Y-m-d') : '' }}</td>
+                <td>{{ produit.quantite }}</td>
+                <td>{{ produit.description }}</td>
+                <td>{{ produit.note }}</td>
+
+                <div>
+                    <td> <img  src="{{ asset('img/')}}{{ produit.image }}" alt="" class="img"></td>
+
+                </div>
+                <td>{{ produit.quantite *produit.prix  }}</td>
+                <td>
+                    <a href="{{ path('app_produit_show', {'idProduit': produit.idProduit}) }}">show</a>
+                    <a href="{{ path('app_produit_edit', {'idProduit': produit.idProduit}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="navigation">
+        {{ knp_pagination_render(produits) }}
+    </div>
+    <a href="{{ path('app_produit_new') }}">Create new</a>
+    <a href="{{ path('app_p_indexpdf') }}">Pdf</a>
+{% endblock %}

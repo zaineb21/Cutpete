@@ -1,0 +1,39 @@
+
+{% block corp %}
+    <h1 align="center"> Liste produit pdf</h1>
+    <link rel="stylesheet" href={{ asset ('public/css/style.css') }}>
+    <table class="table">
+        <thead>
+        <tr>
+
+            <th>LibelleProduit</th>
+            <th>Categorie</th>
+            <th>Prix</th>
+            <th>DateExpiration</th>
+            <th>Quantite</th>
+            <th>Description</th>
+            <th>Note</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for produit in produits %}
+            <tr>
+
+                <td>{{ produit.libelleProduit }} </td>
+                <td>{{ produit.categorie }}</td>
+                <td>{{ produit.prix }}</td>
+                <td>{{ produit.dateExpiration ? produit.dateExpiration|date('Y-m-d') : '' }}</td>
+                <td>{{ produit.quantite }}</td>
+                <td>{{ produit.description }}</td>
+                <td>{{ produit.note }}</td>
+
+
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

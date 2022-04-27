@@ -1,0 +1,33 @@
+{% extends 'BaseBack.html.twig' %}
+
+{% block title %}Stock index{% endblock %}
+
+{% block body %}
+    <h1>Stock index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdStock</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for stock in stocks %}
+            <tr>
+                <td>{{ stock.idStock }}</td>
+                <td>
+                    <a href="{{ path('app_stock_show', {'idStock': stock.idStock}) }}">show</a>
+                    <a href="{{ path('app_stock_edit', {'idStock': stock.idStock}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_stock_new') }}">Create new</a>
+{% endblock %}

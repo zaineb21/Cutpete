@@ -1,0 +1,42 @@
+{% extends 'BaseBack.html.twig' %}
+
+{% block title %}Promotion{% endblock %}
+
+{% block body %}
+    <h1>Promotion</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdPromotion</th>
+                <td>{{ promotion.idPromotion }}</td>
+            </tr>
+            <tr>
+                <th>LibellePromotion</th>
+                <td>{{ promotion.libellePromotion }}</td>
+            </tr>
+            <tr>
+                <th>Pourcentage</th>
+                <td>{{ promotion.pourcentage }}</td>
+            </tr>
+            <tr>
+                <th>DateDebutPromotion</th>
+                <td>{{ promotion.dateDebutPromotion ? promotion.dateDebutPromotion|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateFinPourcentage</th>
+                <td>{{ promotion.dateFinPourcentage ? promotion.dateFinPourcentage|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ promotion.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_promotion_index') }}">back to list</a>
+
+    <a href="{{ path('app_promotion_edit', {'idPromotion': promotion.idPromotion}) }}">edit</a>
+
+    {{ include('promotion/_delete_form.html.twig') }}
+{% endblock %}
