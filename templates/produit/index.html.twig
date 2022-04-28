@@ -1,7 +1,8 @@
 {% extends 'BaseBack.html.twig' %}
 
-{% block title %}Produit index{% endblock %}
+{% block title %}Produit index
 
+{% endblock %}
 {% block body %}
     <style>
         .img{
@@ -23,6 +24,31 @@
             border-width: 0;
         }
     </style>
+<section class="ftco-section">
+
+    <div class="container">
+        <div class="row">
+            <section>
+
+                <div class="album py-5 bg-light">
+                    <div class="container">
+                        <div class="sidebar-search" >
+                            <div class="input-group custom-search-form">
+                                <input    type="text" id="search" class="form-control widget_input" placeholder="Chercher..." style="width: 900px;background: white">
+                            </div>
+                            <br>
+                            <!-- /input-group -->
+                            <ul class="nav" id="side-menu">
+                                <li>
+                                    <a href="#"> <span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level" id="entitiesNav">
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
     <table class="table">
         <thead>
             <tr>
@@ -59,6 +85,7 @@
                 <td>
                     <a href="{{ path('app_produit_show', {'idProduit': produit.idProduit}) }}">show</a>
                     <a href="{{ path('app_produit_edit', {'idProduit': produit.idProduit}) }}">edit</a>
+
                 </td>
             </tr>
         {% else %}
@@ -68,9 +95,63 @@
         {% endfor %}
         </tbody>
     </table>
+            <!-- jQuery is necessary -->
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+            <script type="text/javascript">
+
+
+                jQuery(document).ready(function() {
+                    var searchRequest = null;
+                    $("#search").keyup(function() {
+
+
+
+                        var minlength = 3;
+                        var that = this;
+                        var value = $(this).val(); // elyyktbo fi input 7atito fi var var
+                        var entitySelector = $("#entitiesNav").html('');
+                        if (value.length >= minlength ) {
+                            if (searchRequest != null)
+                                searchRequest.abort();
+                            searchRequest = $.ajax({
+                                type: "GET",
+                                url: "{{ path('ajax_search1') }}",
+                                data: {
+                                    'q' : value
+                                },
+                                dataType: "text",
+                                success: function(msg){
+                                    //we need to check if the value is the same
+                                    if (value==$(that).val()) {
+                                        var result = JSON.parse(msg);
+
+                                        $.each(result, function(key, arr) {
+                                            $.each(arr, function(id, value) {
+                                                if (key == 'produit') {
+                                                    if (id != 'error') {
+                                                        x= document.getElementById("container");
+
+                                                        entitySelector.append('<div style="display: table;width:100%;padding: 15px"><span style="text-align: center"> marque: '+value[1]+'</span><br/><span style="text-align: center"> serie: '+value[4]+'</span><br/><a href="produit/show.html.twig'+id+'">'+'<img src="/uploads/produit_image/'+value[0]+'" style="width: 150px; height: 150px"/>'+'</a></div>');
+
+
+                                                    } else {
+                                                        entitySelector.append('<li class="errorLi">'+value+'</li>');
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    });
+                });
+            </script>
     <div class="navigation">
         {{ knp_pagination_render(produits) }}
     </div>
     <a href="{{ path('app_produit_new') }}">Create new</a>
     <a href="{{ path('app_p_indexpdf') }}">Pdf</a>
+    <a href="{{ path('note_stat') }}">stat</a>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 {% endblock %}

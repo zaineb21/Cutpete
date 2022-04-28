@@ -51,12 +51,22 @@ class ProduitRepository extends ServiceEntityRepository
             ->createQuery(
                 'SELECT p
                 FROM App:Produit p
-                WHERE p.categorie LIKE :str'
+                WHERE p.libelle_produit LIKE :str'
             )
             ->setParameter('str', '%'.$str.'%')
             ->getResult();
     }
+    public function rechercheAvance($str) {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT V
+            FROM App\Entity\Produit P
+            WHERE P.libelle_produit LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
 
+    }
     // /**
     //  * @return Produit[] Returns an array of Produit objects
     //  */

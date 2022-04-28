@@ -177,7 +177,7 @@ class ProduitController extends AbstractController
     }
 
     /**
-     * @Route("/search" ,name="ajax_search")
+     * @Route("/search/" ,name="ajax_search1")
 
      */
     public function searchAction(ProduitRepository $ProduitRepository, Request $request)
@@ -199,5 +199,16 @@ class ProduitController extends AbstractController
             $realEntities[$produit->getIdProduit()] = [$produit->getImage(), $produit->getLibelle()];
         }
         return $realEntities;
+    }
+
+        /**
+         * @Route("/stats", name="note_stat", methods={"GET"})
+
+         */
+        public function board( ProduitRepository $produitRepository): Response
+    {
+        return $this->render('produit/stat.html.twig', [
+            'produits'=> $produitRepository->findAll(),
+        ]);
     }
 }

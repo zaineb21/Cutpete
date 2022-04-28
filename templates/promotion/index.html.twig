@@ -5,7 +5,31 @@
 {% block body %}
 
     <h1>Promotion index</h1>
+<section class="ftco-section">
 
+    <div class="container">
+        <div class="row">
+            <section>
+
+                <div class="album py-5 bg-light">
+                    <div class="container">
+                        <div class="sidebar-search" >
+                            <div class="input-group custom-search-form">
+                                <input    type="text" id="search" class="form-control widget_input" placeholder="Chercher..." style="width: 900px;background: white">
+                            </div>
+                            <br>
+                            <!-- /input-group -->
+                            <ul class="nav" id="side-menu">
+                                <li>
+                                    <a href="#"> <span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level" id="entitiesNav">
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
     <table class="table">
         <thead>
             <tr>
@@ -39,8 +63,64 @@
         {% endfor %}
         </tbody>
     </table>
+            <!-- jQuery is necessary -->
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+            <script type="text/javascript">
+
+
+                jQuery(document).ready(function() {
+                    var searchRequest = null;
+                    $("#search").keyup(function() {
+
+
+
+                        var minlength = 3;
+                        var that = this;
+                        var value = $(this).val(); // elyyktbo fi input 7atito fi var var
+                        var entitySelector = $("#entitiesNav").html('');
+                        if (value.length >= minlength ) {
+                            if (searchRequest != null)
+                                searchRequest.abort();
+                            searchRequest = $.ajax({
+                                type: "GET",
+                                url: "{{ path('ajax_search') }}",
+                                data: {
+                                    'q' : value
+                                },
+                                dataType: "text",
+                                success: function(msg){
+                                    //we need to check if the value is the same
+                                    if (value==$(that).val()) {
+                                        var result = JSON.parse(msg);
+
+                                        $.each(result, function(key, arr) {
+                                            $.each(arr, function(id, value) {
+                                                if (key == 'voitures') {
+                                                    if (id != 'error') {
+                                                        x= document.getElementById("container");
+
+                                                        entitySelector.append('<div style="display: table;width:100%;padding: 15px"><span style="text-align: center"> marque: '+value[1]+'</span><br/><span style="text-align: center"> serie: '+value[4]+'</span><br/><a href="/app_promotion_index/'+id+'">'+'<img src="/uploads/produit_image/'+value[0]+'" style="width: 150px; height: 150px"/>'+'</a></div>');
+
+
+                                                    } else {
+                                                        entitySelector.append('<li class="errorLi">'+value+'</li>');
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    });
+                });
+            </script>
     <div class="navigation">
         {{ knp_pagination_render(promotions) }}
     </div>
     <a href="{{ path('app_promotion_new') }}">Create new</a>
+            <a href="{{path('note_stat')}}"
+            class="btn btn-success"> voir les statistques
+            <i class="bi bi-cart-plus"></i>
+            </a>
 {% endblock %}

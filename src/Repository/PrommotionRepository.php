@@ -46,7 +46,17 @@ class PrommotionRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+    public function rechercheAvance($str) {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT V
+            FROM App\Entity\Promotion P
+            WHERE P.libelle_promotion LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
 
+    }
     // /**
     //  * @return Promotion[] Returns an array of Promotion objects
     //  */

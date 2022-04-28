@@ -16,75 +16,9 @@
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css')}}">
     <!-- Load Flashy default CSS -->
     <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-    <h2 style="margin: 1.5%;margin-left: 50%;margin-top: 3%;" >Search For a Product </h2>
-
-    <div class="sidebar-search "style="
-					    width: 25%;
-					    height: auto;
-					    margin-left: 50%;
-					">
-
-        <div < class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i>
-
-        <input type="text" id="search" class="form-control" placeholder="Search here">
-    </div>
-    <!-- /input-group -->
-    </div>
-
-    <ul class="nav" id="side-menu"style="margin-left: 80%;">
-        <li>
-            </a>
-            <ul class="nav nav-second-level" id="entitiesNav" style="
-					    display: table-row-group;font-size: xx-large;"></ul>
-        </li>
-    </ul><br><br><br><br>
-
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-    <script type="text/javascript">
-        jQuery(document).ready(function () {
-            var searchRequest = null;
-            $("#search").keyup(function () {
-                var minlength = 1;
-                var that = this;
-                var value = $(this).val();
-                var entitySelector = $("#entitiesNav").html('');
-                if (value.length >= minlength) {
-                    if (searchRequest != null)
-                        searchRequest.abort();
 
 
-                    searchRequest = $.ajax({
-                        type: "GET",
-                        url: "{{ path('ajax_search') }}",
-                        data: {
-                            'q': value
-                        },
-                        dataType: "text",
-                        success: function (msg) { // we need to check if the value is the same
-                            if (value === $(that).val()) {
-                                var result = JSON.parse(msg);
-                                $.each(result, function (key, arr) {
-                                    $.each(arr, function (id, value) {
-                                        if (key === 'product') {
-                                            if (id !== 'error') {
-                                                console.log(value[1]);
-                                                entitySelector.append('<li><b>' + value[1] + '</b><a href="/produit/index/' + id + '">' + '<img src="/uploads/' + value[0] + '" style="width: 50px; height: 50px"/>' + '</a></li>');
-                                            } else {
-                                                entitySelector.append('<li class="errorLi">' + value + '</li>');
-                                            }
-                                        }
-                                    });
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+
 
 </head>
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -502,7 +436,7 @@
                             <script src="{{ asset('dist/js/pages/dashboard2.js')}}"></script>
                             <!-- Load Flashy default JavaScript -->
                             <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
-                            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 
                         </div>
                     </div>

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Promotion;
 use App\Form\PromotionType;
+use App\Repository\PrommotionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -118,5 +119,40 @@ class PromotionController extends AbstractController
         }
 
         return $this->redirectToRoute('app_promotion_index', [], Response::HTTP_SEE_OTHER);
+    }
+    /**
+     * @Route("/ajax_search/", name="ajax_search")
+     */
+    public function search(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $requestString = $request->get('q');// ooofkdokfdfdf
+        $promotions =  $em->getRepository(promotion::class)->rechercheAvance($requestString);
+        if(!$promotions) {
+            $result['promotions']['error'] = "promotion non trouvée :( ";
+        } else {
+            $result['$promotions'] = $this->getRealEntities($promotions);
+        }
+        return new Response(json_encode($result));
+    }
+
+
+// LES  attributs
+    public function getRealEntities($promotions){
+        foreach ($promotions as $promotions){
+            $realEntities[$promotions->getIdPromotion()] = [$promotions->getLibellePromotion(),$promotions->getPourcentage(),$promotions->getDescription(),$promotions->getPourcentage()];
+
+        }
+        return $realEntities;
+    }
+    /**
+     * @Route("/stat", name="note_stat", methods={"GET"})
+
+     */
+    public function board( PrommotionRepository $prommotionRepository): Response
+    {
+        return $this->render('promotion/stat.html.twig', [
+            'promotions'=> $prommotionRepository->findAll(),
+        ]);
     }
 }
