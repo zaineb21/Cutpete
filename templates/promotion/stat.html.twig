@@ -1,0 +1,52 @@
+{% extends 'BaseBack.html.twig' %}
+
+{% block title %}Fournisseurs/stocks Statistics{% endblock %}
+{% set b=0 %}
+{% set color='Black' %}
+{% for four in produits %}
+    {% if four.note|length>b %}
+        {% set b = four.note|length  %}
+    {% endif %}
+{% endfor %}
+{% block body %}
+
+    <div class="container-fluid">
+        {% for four in produits %}
+            <div class="col-xl-3 col-lg-6" style="display: inline-block;margin: 10px;">
+                <div class="card card-stats mb-4 mb-xl-0">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">{{ four.Libelle }}</h5>
+                                {% if four.note|length>100  %}
+                                    {% set color='Green' %}
+                                {% elseif four.note|length>50 %}
+                                    {% set color='Orange' %}
+                                {% else %}
+                                    {% set color='Red' %}
+                                {% endif %}
+                                <span class="h2 font-weight-bold mb-0" style="background-color: {{ color }};"></span>
+                            </div>
+                            <div class="col-auto">
+                                <div class="icon icon-shape text-white rounded-circle shadow" style="background-color: {{ color }}">
+                                    <i class="fas fa-chart-bar" ></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="mt-3 mb-0 text-muted text-sm">
+        <span class="text-success mr-2">
+            {% if four.note|length == b %}
+                <i class="fa fa-star"></i>
+            {% elseif four.note|length > 5 %}
+                <i class="fa fa-arrow-up"></i>
+                {% else %}
+                <i class="fa fa-arrow-down"></i>
+            {% endif %}
+            {{ four.note|length }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
